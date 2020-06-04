@@ -57,11 +57,11 @@
           {% set grandparent_length = grandparent.subsections | length %}
           {% for section_path in grandparent.subsections %}
             {% if parent.path in section_path %}
-              {% set next_section = get_section(path=grandparent.subsections | nth(n=loop.index)) %}
-              {% if next_section %}
+              {% set next_page = get_section(path=grandparent.subsections | nth(n=loop.index)) %}
+              {% if next_page %}
                 <li>
-                  <a href="{{ next_section.permalink | safe }}">
-                    {{ next_section.title }} &rarr;
+                  <a href="{{ next_page.permalink | safe }}">
+                    {{ next_page.title }} &rarr;
                   </a>
                 </li>
                 {% break %}
