@@ -17,7 +17,6 @@
 {% if page.lighter %}
   {% set prev_page = page.lighter %}
 {% elif parent %}
-  {# TODO: do not create if parent is root index #}
   {% set prev_page = parent %}
 {% endif %}
 
