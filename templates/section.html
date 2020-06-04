@@ -1,6 +1,45 @@
 {% extends "base.html" %}
 
 {% block template_content %}
+
+{% set parent = get_section(path=section.ancestors | last) %}
+
+{# previous link #}
+{% set found_current_path = false %}
+{% for sibling_path in parent.subsections | reverse %}
+  {% if found_current_path %}
+    {% set_global prev_page = get_section(path=sibling_path) %}
+    {% break %}
+  {% endif %}
+  {% if current_path in sibling_path %}
+    {% set_global found_current_path = true %}
+  {% endif %}
+{% endfor %}
+{% if not prev_page and parent %}
+  {% set prev_page = parent %}
+{% endif %}
+
+{# next link #}
+{% if section.pages %}
+  {# First child page #}
+  {% set next_page = section.pages | first %}
+{% elif section.subsections %}
+  {# First child subsection #}
+  {% set next_page = get_section(path=section.subsections | first) %}
+{% else %}
+  {# Find the next section #}
+  {% set found_current_path = false %}
+  {% for sibling_path in parent.subsections %}
+    {% if found_current_path %}
+      {% set_global next_page = get_section(path=sibling_path) %}
+      {% break %}
+    {% endif %}
+    {% if current_path in sibling_path %}
+      {% set_global found_current_path = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <article>
   <header>
     <h1>{{ section.title }}</h1>
@@ -18,8 +57,44 @@
         {% endfor %}
       </ul>
     </footer>
+    {% elif section.subsections %}
+      <h3>Chapters in this section</h3>
+      <ul>
+        {% for subsection_path in section.subsections %}
+          {% set subsection = get_section(path=subsection_path) %}
+          <li>
+            <a href="{{ subsection.permalink | safe }}">{{ subsection.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     {% endif %}
   </section>
 </article>
-{% include "nav.html" %}
+<footer>
+  <nav>
+    <ul>
+      {% if prev_page %}
+      <li>
+        <a href="{{ prev_page.permalink | safe }}">
+          &larr; {{ prev_page.title }}
+        </a>
+      </li>
+      {% endif %}
+
+      <li>
+        <a href="{{ get_url(path="@/_index.md") }}">
+          Top
+        </a>
+      </li>
+
+      {% if next_page %}
+      <li>
+        <a href="{{ next_page.permalink | safe }}">
+          {{ next_page.title }} &rarr;
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</footer>
 {% endblock template_content %}

@@ -1,6 +1,36 @@
 {% extends "base.html" %}
 
 {% block template_content %}
+
+{% set parent = get_section(path=page.ancestors | last) %}
+
+{# previous link #}
+{% if page.lighter %}
+  {% set prev_page = page.lighter %}
+{% elif parent %}
+  {% set prev_page = parent %}
+{% endif %}
+
+{# next link #}
+{% if page.heavier %}
+  {# next sibling #}
+  {% set next_page = page.heavier %}
+{% else %}
+  {# find the next section #}
+  {% if parent.ancestors %}
+    {% set grandparent = get_section(path=parent.ancestors | last) %}
+    {% for section_path in grandparent.subsections %}
+      {% if parent.path in section_path %}
+        {% set next_section = get_section(path=grandparent.subsections | nth(n=loop.index)) %}
+        {% if next_section %}
+          {% set_global next_page = next_section %}
+          {% break %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
 <article>
   <header>
     <h1>{{ page.title }}</h1>
@@ -9,5 +39,31 @@
     {{ page.content | safe }}
   </section>
 </article>
-{% include "nav.html" %}
+<footer>
+  <nav>
+    <ul>
+      {% if prev_page %}
+      <li>
+        <a href="{{ prev_page.permalink | safe }}">
+          &larr; {{ prev_page.title }}
+        </a>
+      </li>
+      {% endif %}
+
+      <li>
+        <a href="{{ get_url(path="@/_index.md") }}">
+          Top
+        </a>
+      </li>
+
+      {% if next_page %}
+      <li>
+        <a href="{{ next_page.permalink | safe }}">
+          {{ next_page.title }} &rarr;
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+</footer>
 {% endblock template_content %}
