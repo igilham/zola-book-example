@@ -1,5 +1,5 @@
 {#
-  Navigation is the most complex part of this site. I've used a single template for sections and pages, setting the current page/section state on the `this_page` variable to simplify programming.
+  Navigation is the most complex part of this site. I've used a single template for sections and pages.
 
   This creates 3 links on any section or page: Previous, Top and Next.
 
@@ -8,11 +8,10 @@
   * Next: links into the first child page of a section or the next sibling page within a section. If the current page is the last page in a section, it links to the next section index if any exists.
 #}
 {% if page %}
-  {% set this_page = page %}
+  {% set parent = get_section(path=page.ancestors | last) %}
 {% else %}
-  {% set this_page = section %}
+  {% set parent = get_section(path=section.ancestors | last) %}
 {% endif %}
-{% set parent = get_section(path=this_page.ancestors | last) %}
 
 {# previous link #}
 {% if page and page.lighter %}
@@ -36,17 +35,17 @@
         </a>
       </li>
 
-      {% if this_page.heavier %}
+      {% if page and page.heavier %}
         {# next sibling #}
-        {% set next_page = this_page.heavier %}
+        {% set next_page = page.heavier %}
         <li>
           <a href="{{ next_page.permalink | safe }}">
             {{ next_page.title }} &rarr;
           </a>
         </li>
-        {% elif this_page.pages %}
-          {# First child page if this_page is a section #}
-          {% set next_page = this_page.pages | first %}
+        {% elif section and section.pages %}
+          {# First child page if this page is a section #}
+          {% set next_page = section.pages | first %}
           <li>
             <a href="{{ next_page.permalink | safe }}">
               {{ next_page.title }} &rarr;
