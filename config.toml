@@ -14,4 +14,4 @@ build_search_index = false
 [extra]
 # Put all your custom variables here
 site_title = "My Site Title"
-author = "Ian Gilham"
+author = "Site Author"
