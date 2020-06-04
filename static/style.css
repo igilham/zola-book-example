@@ -1,0 +1,143 @@
+/* html{ font-size: 20px; } */
+@media all and (min-width:1000px) { html { font-size: 22px; } }
+@media all and (max-width:520px) { html{ font-size: 18px; } }
+
+html {
+  height: 100%;
+}
+
+body {
+  font-size: 0.98em;
+}
+
+#container {
+  width: 80%;
+  max-width: 1000px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  font-family: "Charter", serif;
+  /* font-family: "Fira Sans", sans-serif; */
+  line-height: 1.4;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: kern;
+}
+
+article {
+  display: flex;
+  justify-content: space-between;
+}
+
+header {
+  min-width: 20%;
+  max-width: 30%;
+  margin-right: 2rem;
+  text-align: right;
+  border-top: 0.2rem solid black;
+}
+
+header>h1 {
+  font-size: 1.4rem;
+}
+
+header>p {
+  font-size: 1.2rem;
+}
+
+header>h2 {
+  font-size: 1.4rem;
+  font-weight: normal;
+  font-style: italic;
+}
+
+#article-content {
+  width: 100%;
+}
+
+#article-content h2 {
+  font-size: 1.6rem;
+}
+#article-content h3 {
+  font-size: 1.6rem;
+  font-weight: normal;
+  font-style: italic;
+}
+
+a:link {
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(255,69,0);
+}
+
+nav>ul {
+  padding-left: 0;
+  display: flex;
+  justify-content: space-between;
+}
+nav>ul>li, #toc ul {
+  list-style: none;
+}
+
+nav>ul>* {
+  text-align: center;
+}
+nav>ul>*:first-child {
+  text-align: left;
+}
+nav>ul>*:last-child {
+  text-align: right;
+}
+
+#toc section.toc-section {
+  margin-top: 2rem;
+}
+#toc ul {
+  column-count: 2;
+  padding-left: 0;
+}
+
+@media all and (max-width:700px) {
+  /* squash things down for smaller screens */
+  article {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  header {
+    min-width: inherit;
+    max-width: inherit;
+    margin-right: inherit;
+    text-align: right;
+    border-top: 0.2rem solid black;
+  }
+
+  header>h1 {
+    font-size: 1.2rem;
+  }
+
+  header>p {
+    font-size: 1.0rem;
+  }
+
+  header>h2 {
+    font-size: 1.2rem;
+  }
+
+  #article-content h2 {
+    font-size: 1.4rem;
+  }
+
+  #article-content h3 {
+    font-size: 1.4rem;
+  }
+
+  nav>ul {
+    flex-direction: column;
+  }
+
+  #toc ul {
+    column-count: 1;
+  }
+}

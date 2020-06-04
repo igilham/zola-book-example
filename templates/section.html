@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block template_content %}
+<article>
+  <header>
+    <h1>{{ section.title }}</h1>
+  </header>
+  <section id="article-content">
+    {{ section.content | safe }}
+    <footer>
+      {% if section.pages %}
+      <h3>Pages in this chapter</h3>
+      <ul>
+        {% for page in section.pages %}
+          <li>
+            <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </footer>
+    {% endif %}
+  </section>
+</article>
+{% include "nav.html" %}
+{% endblock template_content %}

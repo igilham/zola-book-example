@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block template_content %}
+<article id="toc">
+  <header>
+    <h1>{{ config.extra["site_title"] }}</h1>
+    <h2>{{ config.extra["author"] }}</h2>
+  </header>
+  <div id="article-content">
+    <section>
+      {{ section.content | safe }}
+    </section>
+
+    {% for section_path in section.subsections %}
+      {% set subsection = get_section(path=section_path) %}
+      <h2>
+        <a href="{{ subsection.permalink | safe }}">
+          {{subsection.title}}
+        </a>
+      </h2>
+      {% if subsection.pages %}
+        <ul>
+          {% for page in subsection.pages %}
+            <li>
+              <a href="{{ page.permalink | safe }}">
+                {{ page.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</article>
+{% endblock template_content %}

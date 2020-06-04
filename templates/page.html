@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block template_content %}
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <section id="article-content">
+    {{ page.content | safe }}
+  </section>
+</article>
+{% include "nav.html" %}
+{% endblock template_content %}
