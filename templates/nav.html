@@ -21,6 +21,28 @@
   {% set prev_page = parent %}
 {% endif %}
 
+{# next link #}
+{% if page.heavier %}
+  {# next sibling #}
+  {% set next_page = page.heavier %}
+{% elif section.pages %}
+  {# First child page if this page is a section #}
+  {% set next_page = section.pages | first %}
+{% elif parent.ancestors %}
+  {# Find the next section index if any exists #}
+  {% set grandparent = get_section(path=parent.ancestors | last) %}
+  {% set grandparent_length = grandparent.subsections | length %}
+  {% for section_path in grandparent.subsections %}
+    {% if parent.path in section_path %}
+      {% set next_section = get_section(path=grandparent.subsections | nth(n=loop.index)) %}
+      {% if next_section %}
+        {% set_global next_page = next_section %}
+        {% break %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
 <footer>
   <nav>
     <ul>
@@ -37,32 +59,6 @@
           Top
         </a>
       </li>
-
-      {% if page.heavier %}
-        {# next sibling #}
-        {% set next_page = page.heavier %}
-      {% elif section.pages %}
-        {# First child page if this page is a section #}
-        {% set next_page = section.pages | first %}
-      {% elif parent.ancestors %}
-        {# Find the next section index if any exists #}
-        {% set grandparent = get_section(path=parent.ancestors | last) %}
-        {% set grandparent_length = grandparent.subsections | length %}
-        {% for section_path in grandparent.subsections %}
-          {% if parent.path in section_path %}
-            {% set next_section = get_section(path=grandparent.subsections | nth(n=loop.index)) %}
-            {% if next_section %}
-            {% set next_page = next_section %}
-              <li>
-                <a href="{{ next_page.permalink | safe }}">
-                  {{ next_page.title }} &rarr;
-                </a>
-              </li>
-              {% break %}
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
 
       {% if next_page %}
       <li>
