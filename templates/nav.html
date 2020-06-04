@@ -14,7 +14,7 @@
 {% endif %}
 
 {# previous link #}
-{% if page and page.lighter %}
+{% if page.lighter %}
   {% set prev_page = page.lighter %}
 {% elif parent %}
   {# TODO: do not create if parent is root index #}
@@ -31,13 +31,14 @@
         </a>
       </li>
       {% endif %}
+
       <li>
         <a href="{{ get_url(path="@/_index.md") }}">
           Top
         </a>
       </li>
 
-      {% if page and page.heavier %}
+      {% if page.heavier %}
         {# next sibling #}
         {% set next_page = page.heavier %}
         <li>
@@ -45,7 +46,7 @@
             {{ next_page.title }} &rarr;
           </a>
         </li>
-        {% elif section and section.pages %}
+        {% elif section.pages %}
           {# First child page if this page is a section #}
           {% set next_page = section.pages | first %}
           <li>
