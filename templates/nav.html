@@ -17,18 +17,20 @@
 {% if page and page.lighter %}
   {% set prev_page = page.lighter %}
 {% elif parent %}
+  {# TODO: do not create if parent is root index #}
   {% set prev_page = parent %}
 {% endif %}
-
 
 <footer>
   <nav>
     <ul>
+      {% if prev_page %}
       <li>
         <a href="{{ prev_page.permalink | safe }}">
           &larr; {{ prev_page.title }}
         </a>
       </li>
+      {% endif %}
       <li>
         <a href="{{ get_url(path="@/_index.md") }}">
           Top
