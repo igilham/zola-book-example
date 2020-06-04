@@ -28,6 +28,18 @@
             </li>
           {% endfor %}
         </ul>
+        {% elif subsection.subsections %}
+          {# Nested sections should show subsection headers only #}
+          <ul>
+            {% for subsection_path in subsection.subsections %}
+              {% set subsubsection = get_section(path=subsection_path) %}
+              <li>
+                <a href="{{ subsubsection.permalink | safe }}">
+                  {{ subsubsection.title }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
       {% endif %}
     {% endfor %}
 
