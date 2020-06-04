@@ -38,9 +38,10 @@
 
       {% if this_page.heavier %}
       {# next sibling #}
+        {% set next_page = this_page.heavier %}
         <li>
-          <a href="{{ this_page.heavier.permalink | safe }}">
-            {{ this_page.heavier.title }} &rarr;
+          <a href="{{ next_page.permalink | safe }}">
+            {{ next_page.title }} &rarr;
           </a>
         </li>
         {% elif this_page.pages %}
